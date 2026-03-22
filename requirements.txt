@@ -1,0 +1,4 @@
+anthropic
+apscheduler
+requests
+python-dotenv
