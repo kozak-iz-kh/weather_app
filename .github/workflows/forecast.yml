@@ -26,13 +26,4 @@ jobs:
           LATITUDE: '39.4699'
           LONGITUDE: '-0.3763'
           CITY_NAME: Valencia
-        run: |
-          python -c "
-from weather.open_meteo import fetch_weather
-from ai.claude import generate_forecast
-from bot.telegram import send_message
-
-weather = fetch_weather()
-text = generate_forecast(weather, [])
-send_message(text)
-"
+        run: python run_forecast.py
