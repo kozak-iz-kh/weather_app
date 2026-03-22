@@ -1,0 +1,38 @@
+name: Daily Weather Forecast
+
+on:
+  schedule:
+    - cron: '30 7 * * *'  # 09:30 Europe/Madrid (UTC+2)
+  workflow_dispatch:       # manual trigger for testing
+
+jobs:
+  send-forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run forecast
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LATITUDE: '39.4699'
+          LONGITUDE: '-0.3763'
+          CITY_NAME: Valencia
+        run: |
+          python -c "
+from weather.open_meteo import fetch_weather
+from ai.claude import generate_forecast
+from bot.telegram import send_message
+
+weather = fetch_weather()
+text = generate_forecast(weather, [])
+send_message(text)
+"
