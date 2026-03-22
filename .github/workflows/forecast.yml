@@ -2,8 +2,8 @@ name: Daily Weather Forecast
 
 on:
   schedule:
-    - cron: '30 7 * * *'  # 09:30 Europe/Madrid (UTC+2)
-  workflow_dispatch:       # manual trigger for testing
+    - cron: "00 7 * * *" # 09:00 Europe/Madrid (UTC+2)
+  workflow_dispatch: # manual trigger for testing
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: "3.13"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -26,7 +26,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          LATITUDE: '39.4699'
-          LONGITUDE: '-0.3763'
+          LATITUDE: "39.4699"
+          LONGITUDE: "-0.3763"
           CITY_NAME: Valencia
         run: python run_forecast.py
