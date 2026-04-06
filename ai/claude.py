@@ -26,15 +26,19 @@ def generate_forecast(weather: dict, warnings: list[str]) -> str:
         else ""
     )
 
+    cloud = weather["cloud"]
     prompt = f"""Прогноз погоди на сьогодні для міста {city}, Іспанія:
-- Стан: {weather_desc}
+- Загальний стан (WMO): {weather_desc}
+- Хмарність (реальні %): вранці {cloud['morning']}%, вдень {cloud['afternoon']}%, ввечері {cloud['evening']}%
 - Температура: від {weather['temp_min']}°C до {weather['temp_max']}°C
 - Відчувається як: від {weather['feels_min']}°C до {weather['feels_max']}°C
 - Максимальний вітер: {weather['windspeed']} км/год
 - Опади за день: {weather['precipitation']} мм (ймовірність {weather['precipitation_probability']}%)
 - Максимальний UV-індекс: {weather['uv_index']}
+- Температура моря: {weather['sea_temp']}°C
 {warnings_block}
 Напиши короткий дружній щоденний прогноз погоди (4-6 речень) українською мовою. \
+При описі хмарності спирайся на реальні відсотки, а не на загальний WMO-стан — наприклад, 10% це фактично ясно, 70% це похмуро. \
 Опиши що чекати протягом усього дня — вранці, вдень, ввечері якщо є що відзначити. \
 Якщо є попередження — згадай їх на початку. \
 Тон — доброзичливий, як від друга, що живе у Валенсії. Не починай з "Привіт"."""
