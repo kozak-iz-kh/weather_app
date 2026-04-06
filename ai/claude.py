@@ -27,9 +27,13 @@ def generate_forecast(weather: dict, warnings: list[str]) -> str:
         else ""
     )
 
+    UA_MONTHS = ["січня","лютого","березня","квітня","травня","червня",
+                 "липня","серпня","вересня","жовтня","листопада","грудня"]
+    today = date.today()
+    today_str = f"{today.day} {UA_MONTHS[today.month - 1]} {today.year}"
+
     cloud = weather["cloud"]
-    today = date.today().strftime("%d %B %Y")
-    prompt = f"""Прогноз погоди на {today} для міста {city}, Іспанія:
+    prompt = f"""Прогноз погоди на {today_str} для міста {city}, Іспанія:
 - Загальний стан (WMO): {weather_desc}
 - Хмарність (реальні %): вранці {cloud['morning']}%, вдень {cloud['afternoon']}%, ввечері {cloud['evening']}%
 - Температура: від {weather['temp_min']}°C до {weather['temp_max']}°C
