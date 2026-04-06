@@ -1,4 +1,5 @@
 import os
+from datetime import date
 import anthropic
 
 
@@ -27,7 +28,8 @@ def generate_forecast(weather: dict, warnings: list[str]) -> str:
     )
 
     cloud = weather["cloud"]
-    prompt = f"""Прогноз погоди на сьогодні для міста {city}, Іспанія:
+    today = date.today().strftime("%d %B %Y")
+    prompt = f"""Прогноз погоди на {today} для міста {city}, Іспанія:
 - Загальний стан (WMO): {weather_desc}
 - Хмарність (реальні %): вранці {cloud['morning']}%, вдень {cloud['afternoon']}%, ввечері {cloud['evening']}%
 - Температура: від {weather['temp_min']}°C до {weather['temp_max']}°C
